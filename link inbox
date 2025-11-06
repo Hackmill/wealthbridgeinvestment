@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Coin Airdrop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    header a {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+
+    header a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      margin-top: 50px;
+    }
+
+    .write-up {
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    input[type="number"] {
+      padding: 5px;
+      font-size: 16px;
+      width: 80px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .claim-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+
+    #referral {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" onclick="getStarted()">Get Started</a>
+    <a href="#" onclick="connectWallet()">Connect</a>
+  </header>
+
+  <main>
+    <div class="write-up">
+      Welcome to the Free Coin Airdrop! Complete the verification and claim your free tokens.
+    </div>
+
+    <p id="referral"></p>
+
+    <div id="captcha-section">
+      <p>Solve this to verify you are human:</p>
+      <p id="captcha" style="font-size:24px"></p>
+      <input type="number" id="answer">
+      <button onclick="checkAnswer()">Submit</button>
+      <p id="message"></p>
+    </div>
+
+    <div id="claim-section" style="display:none;">
+      <button class="claim-btn" onclick="claim()">Claim Now</button>
+      <p id="claim-message"></p>
+    </div>
+  </main>
+
+  <script>
+    let a = 0;
+    let b = 0;
+
+    // Get referral code from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref) {
+      document.getElementById('referral').innerHTML = `Your referral code: <strong>${ref}</strong>`;
+    }
+
+    function generateCaptcha() {
+      a = Math.floor(Math.random() * 10);
+      b = Math.floor(Math.random() * 10);
+      document.getElementById('captcha').innerText = `${a} + ${b} = ?`;
+      document.getElementById('answer').value = '';
+      document.getElementById('message').innerText = '';
+    }
+
+    function checkAnswer() {
+      const input = parseInt(document.getElementById('answer').value);
+      if (input === a + b) {
+        document.getElementById('captcha-section').style.display = 'none';
+        document.getElementById('claim-section').style.display = 'block';
+        document.getElementById('claim-message').innerText = 'Verification successful!';
+      } else {
+        document.getElementById('message').innerText = 'Incorrect, try again.';
+        generateCaptcha();
+      }
+    }
+
+    function claim() {
+      alert(`Claim successful! Referral: ${ref || 'None'}`);
+    }
+
+    function getStarted() {
+      alert("Get Started clicked! Here you can redirect to wallet connection or info page.");
+      // You can replace this alert with actual wallet connection logic
+    }
+
+    function connectWallet() {
+      alert("Connect clicked! Here you can open MetaMask or other wallet.");
+      // Later, integrate Web3 or Ethers.js to connect wallet
+    }
+
+    generateCaptcha(); // initialize captcha on page load
+  </script>
+</body>
+</html>
